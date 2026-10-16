@@ -26,3 +26,14 @@ def chunk_pages(pages, chunk_size=500, overlap=100):
                 "chunk_text": piece
             })
     return chunks
+
+if __name__ == "__main__":
+    all_pages = []
+    for pdf in sorted(Path("docs").glob("*.pdf")):
+        all_pages.extend(extract_pdf(pdf))
+
+    chunks = chunk_pages(all_pages)
+    print(f"{len(all_pages)} pages -> {len(chunks)} chunks")
+    for c in chunks[:3]:
+        print(f"\n[{c['id']}] {c['source']} p.{c['page']}")
+        print(c["text"])
